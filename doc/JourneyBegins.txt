@@ -1,0 +1,40 @@
+Ok, So Open Kinect, here we go...
+
+followed some tutorial and installed, openCV, kinect stuff etc. 
+I can run glview fine.
+problem is, when i try to compile it's missing some libaries.
+
+g++ glview.c -o glview -I /usr/local/include/opencv -L /usr/local/lib -lm -lcv -lhighui -lcvaux | head
+
+
+glview.c:189: error: ‘f_dev’ was not declared in this scope
+glview.c:189: error: ‘LED_YELLOW’ was not declared in this scope
+glview.c:189: error: ‘freenect_set_led’ was not declared in this scope
+glview.c:192: error: ‘f_dev’ was not declared in this scope
+glview.c:192: error: ‘LED_BLINK_GREEN’ was not declared in this scope
+glview.c:192: error: ‘freenect_set_led’ was not declared in this scope
+glview.c:196: error: ‘f_dev’ was not declared in this scope
+glview.c:196: error: ‘LED_BLINK_GREEN’ was not declared in this scope
+glview.c:196: error: ‘freenect_set_led’ was not declared in this scope
+glview.c:199: error: ‘f_dev’ was not declared in this scope
+glview.c:199: error: ‘LED_BLINK_RED_YELLOW’ was not declared in this scope
+glview.c:199: error: ‘freenect_set_led’ was not declared in this scope
+glview.c:202: error: ‘f_dev’ was not declared in this scope
+glview.c:202: error: ‘LED_OFF’ was not declared in this scope
+glview.c:202: error: ‘freenect_set_led’ was not declared in this scope
+glview.c:204: error: ‘f_dev’ was not declared in this scope
+glview.c:204: error: ‘freenect_set_tilt_degs’ was not declared in this scope
+glview.c: At global scope:
+glview.c:269: error: variable or field ‘depth_cb’ declared void
+glview.c:269: error: ‘freenect_device’ was not declared in this scope
+glview.c:269: error: ‘dev’ was not declared in this scope
+glview.c:269: error: expected primary-expression before ‘void’
+glview.c:269: error: expected primary-expression before ‘timestamp’
+
+Ok, Well it looks like, when building the glview example, that OpenGL on my system is under GL not OpenGL.
+Need to change the include path
+I also coped some of the libfreecnet headers to the local dir do be safe
+
+$cpp glview.c -o glview -lGL -lGLU
+glview works
+
