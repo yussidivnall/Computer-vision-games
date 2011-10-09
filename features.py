@@ -16,16 +16,14 @@ def goodFeatures(img):
 
 #Takes file names
 def paintFeatures(inp,out):
-	#Open input image file
+	scaleMat = cv.CreateMat(300, 300, cv.CV_8UC3)
 	img = cv.LoadImageM(inp,cv.CV_LOAD_IMAGE_GRAYSCALE);
-	#get good features
-	gf=goodFeatures(img);
-	#create a copy og image
-	#matOut= cv.CreateMat(img.width,img.height,cv.IPL_DEPTH_16U)
+	#cv.Resize(img,scaleMat);
+	
 
+	gf=goodFeatures(img);
 	omg =  cv.LoadImageM(inp,1);
-	#print "Omg:",omg.width,omg.height," ",omg.depth, "Img:",img.width,img.height," ",img.depth
-	#cv.Copy(img,omg)
+	cv.Resize(omg,scaleMat);
 	for (x,y) in gf:
 		#print "x",int(x),"y",y
 		#print omg
@@ -33,21 +31,13 @@ def paintFeatures(inp,out):
 	cv.SaveImage(out, omg)
 
 	
-def init():
-	global dist_img
-	global rgb_img
-	global out_img
-	dist_img=cv.LoadImage("distance-image.pgm");
-	rgb_img=cv.LoadImage("rgb-image.ppm");
-	print rgb_img.width
 def main():
 	global rgb_img;
-	#init()
 	paintFeatures("distance-image.pgm","distance-image.features.png")
 	paintFeatures("rgb-image.ppm","rgb-image.features.png")
-#	gf=goodFeatures();
+	paintFeatures("distance-image.laplacian.png","distance-image.laplacian.features.png")
+	paintFeatures("rgb-image.laplacian.png","rgb-image.laplacian.features.png")
 	
-
 
 if __name__=='__main__': main()
 

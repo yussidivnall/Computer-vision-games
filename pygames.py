@@ -13,10 +13,10 @@ def resize():
 
 #Laplacian
 def laplacian():
-	im = cv.LoadImageM("out.png", 1)
+	im = cv.LoadImageM("rgb-image.ppm", 1)
 	dst = cv.CreateImage(cv.GetSize(im), cv.IPL_DEPTH_16S, 3)
 	laplace = cv.Laplace(im, dst)
-	cv.SaveImage("out.laplace.png", dst)
+	cv.SaveImage("rgb-image.laplacian.png", dst)
 def goodFeatures():
 	img = cv.LoadImageM("out.png",cv.CV_LOAD_IMAGE_GRAYSCALE);
 	eig_image = cv.CreateMat(img.rows, img.cols, cv.CV_32FC1)
@@ -31,6 +31,6 @@ def toPygame():
 		
 
 #resize();
-#laplacian
-goodFeatures();
+laplacian()
+#goodFeatures();
 #toPygame();
