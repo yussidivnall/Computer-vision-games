@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Desktop/development/kinect/doc/features.py.html</title>
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v10">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+.Identifier { color: #00ffff; }
+.Statement { color: #ffff00; }
+.Constant { color: #ff6060; }
+.PreProc { color: #ff40ff; }
+.Comment { color: #8080ff; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="Comment">#!/usr/bin/python</span>
+<span class="PreProc">import</span> cv,pygame,Image
+dist_img=<span class="Constant">&quot;&quot;</span>
+rgb_img=<span class="Constant">&quot;&quot;</span>
+out_img=<span class="Constant">&quot;&quot;</span>
+
+window=<span class="Constant">&quot;&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">goodFeatures</span>(img):
+        eig_image = cv.CreateMat(img.rows, img.cols, cv.CV_32FC1)
+        temp_image = cv.CreateMat(img.rows, img.cols, cv.CV_32FC1)
+	ret=[]
+        <span class="Statement">for</span> (x,y) <span class="Statement">in</span> cv.GoodFeaturesToTrack(img, eig_image, temp_image, <span class="Constant">10000</span>, <span class="Constant">0.04</span>, <span class="Constant">1.0</span>, useHarris = <span class="Identifier">True</span>):
+		ret.append((x,y))
+	<span class="Statement">return</span> ret;
+
+<span class="Comment">#Takes file names</span>
+<span class="Statement">def</span> <span class="Identifier">paintFeatures</span>(inp,out):
+	scaleMat = cv.CreateMat(<span class="Constant">300</span>, <span class="Constant">300</span>, cv.CV_8UC3)
+	img = cv.LoadImageM(inp,cv.CV_LOAD_IMAGE_GRAYSCALE);
+	<span class="Comment">#cv.Resize(img,scaleMat);</span>
+
+
+	gf=goodFeatures(img);
+
+	<span class="Identifier">print</span> (inp);
+	<span class="Identifier">print</span> (gf);
+
+	omg =  cv.LoadImageM(inp,<span class="Constant">1</span>);
+	cv.Resize(omg,scaleMat);
+	<span class="Statement">for</span> (x,y) <span class="Statement">in</span> gf:
+		<span class="Comment">#print &quot;x&quot;,int(x),&quot;y&quot;,y</span>
+		<span class="Comment">#print omg</span>
+		cv.Circle(omg,(<span class="Identifier">int</span>(x),<span class="Identifier">int</span>(y)),<span class="Constant">5</span>,(<span class="Constant">00</span>,<span class="Constant">255</span>,<span class="Constant">00</span>))
+	cv.SaveImage(out, omg)
+
+
+<span class="Statement">def</span> <span class="Identifier">main</span>():
+	<span class="Statement">global</span> rgb_img;
+	paintFeatures(<span class="Constant">&quot;distance.png&quot;</span>,<span class="Constant">&quot;distance.features.png&quot;</span>)
+        paintFeatures(<span class="Constant">&quot;distance-laplacian.png&quot;</span>,<span class="Constant">&quot;distance-laplacian.features.png&quot;</span>)
+
+
+	paintFeatures(<span class="Constant">&quot;rgb.png&quot;</span>,<span class="Constant">&quot;rgb.features.png&quot;</span>)
+	paintFeatures(<span class="Constant">&quot;rgb-laplacian.png&quot;</span>,<span class="Constant">&quot;rgb-laplacian.features.png&quot;</span>)
+
+
+<span class="Statement">if</span> __name__==<span class="Constant">'__main__'</span>: main()
+
+</pre>
+</body>
+</html>
